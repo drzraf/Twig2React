@@ -1,8 +1,10 @@
 <?php
 
-namespace phpUnitTutorial\Test;
+namespace Twig2React\Test;
 
-class StupidTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class StupidTest extends TestCase {
 
 	public function testTrueIsTrue() {
 		$foo = true;

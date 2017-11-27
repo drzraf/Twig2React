@@ -1,8 +1,25 @@
 {
+  "name": "twig2react/twig2react",
+  "description": "Convert twig files to JSX",
+  "keywords": ["react","twig","drupal"],
+  "license": "GNU GPL V2",
+  "authors": [
+    {
+      "name": "Tom Bennett",
+      "email": "tombennett86@hotmail.co.uk",
+      "homepage": "http://www.tombennett.info",
+      "role": "Developer"
+    }
+  ],
 	"require": {
+    "php": ">=7.0",
 		"symfony/console":"~2.0"
 	},
+  "extra": {
+    "installer-name": "twig2react"
+  },
 	"require-dev": {
+    "php": ">=7.0",
 		"phpunit/phpunit": "^5.0"
 	}
 }
