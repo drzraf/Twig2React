@@ -8,10 +8,10 @@ use Twig2React\Command\GenerateCommand;
 require 'vendor/autoload.php';
 require 'container.php';
 
-$fileService = $container->get('FileService');
+$generate_service = $container->get('GenerateService');
 
 $app = new Application('Twig2React', '1.0');
-$app->add(new GenerateCommand($fileService));
+$app->add(new GenerateCommand($generate_service));
 
 $app->run();
 

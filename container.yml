@@ -1,5 +1,5 @@
 services:
-  FileService:
-    class: Twig2React\Services\FileService
+  GenerateService:
+    class: Twig2React\Services\GenerateService
     arguments:
       mode: true
