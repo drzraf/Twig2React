@@ -57,11 +57,11 @@ class GenerateCommand extends Command {
 			$filesystem->mkdir($destination, 0777);
 		}
 
-		try {
-			$filesystem->chmod($destination, 0777, 0000, true);
-		} catch (IOExceptionInterface $e) {
-			$output->writeln('<comment>You should verify that the destination directory are writable.</comment>');
-		}
+		// try {
+		// 	$filesystem->chmod($destination, 0777, 0000, true);
+		// } catch (IOExceptionInterface $e) {
+		// 	$output->writeln('<comment>You should verify that the destination directory is writable.</comment>');
+		// }
 
 		return $this;
 
