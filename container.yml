@@ -1,0 +1,5 @@
+services:
+  FileService:
+    class: Twig2React\Services\FileService
+    arguments:
+      mode: true

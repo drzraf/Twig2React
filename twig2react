@@ -1,0 +1,18 @@
+#! /usr/bin/env php
+
+<?php
+
+use Symfony\Component\Console\Application;
+use Twig2React\Command\GenerateCommand;
+
+require 'vendor/autoload.php';
+require 'container.php';
+
+$fileService = $container->get('FileService');
+
+$app = new Application('Twig2React', '1.0');
+$app->add(new GenerateCommand($fileService));
+
+$app->run();
+
+

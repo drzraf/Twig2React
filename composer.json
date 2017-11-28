@@ -11,9 +11,14 @@
       "role": "Developer"
     }
   ],
+  "autoload": {
+    "psr-4": {
+      "Twig2React\\": "src/Twig2React"
+    }
+  },
 	"require": {
     "php": ">=7.0",
-		"symfony/console":"~2.0"
+    "symfony/symfony": "2.*.*"
 	},
   "extra": {
     "installer-name": "twig2react"
