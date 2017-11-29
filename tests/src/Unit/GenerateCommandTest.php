@@ -1,6 +1,6 @@
 <?php
 
-namespace Twig2React\Test;
+//namespace Twig2React\Test;
 
 use Twig2React\Command\GenerateCommand;
 use Symfony\Component\Console\Application;
