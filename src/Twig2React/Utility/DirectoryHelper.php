@@ -7,7 +7,23 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class DirectoryHelper {
 
-	public static function getSourceFiles($source) {
+	public static function getFileName($source)
+	{
+		$file = new File($source);
+		
+		return $file->getFilename();
+	}
+
+	public static function getFileNameNoExtension($source)
+	{
+		$file_name = self::getFileName($source);
+		$arr = explode(".", $file_name, 2);
+		
+		return $arr[0];
+	}
+
+	public static function getSourceFiles($source)
+	{
 
 		$finder = new Finder();
 

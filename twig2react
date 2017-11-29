@@ -4,14 +4,16 @@
 
 use Symfony\Component\Console\Application;
 use Twig2React\Command\GenerateCommand;
+use Symfony\Component\Filesystem\Filesystem;
 
 require 'vendor/autoload.php';
 require 'container.php';
 
 $generate_service = $container->get('GenerateService');
+$fs = new Filesystem;
 
 $app = new Application('Twig2React', '1.0');
-$app->add(new GenerateCommand($generate_service));
+$app->add(new GenerateCommand($generate_service, $fs));
 
 $app->run();
 

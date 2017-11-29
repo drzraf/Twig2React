@@ -14,30 +14,52 @@ use Twig2React\Utility\DirectoryHelper;
 
 class GenerateCommand extends Command {
 
+	/**
+	 * Twig2React\Services\GenerateService
+	 */
 	protected $file_generator;
 
-	public function __construct(GenerateService $file_generator) {
+	/**
+	 * Symfony\Component\Filesystem\Filesystem
+	 */
+	protected $file_system;
+
+	/**
+	 * construct
+	 * 
+	 * @param Twig2React\Services\GenerateService $file_generator
+	 * @param Symfony\Component\Filesystem\Filesystem $file_system
+	 */
+	public function __construct(GenerateService $file_generator, Filesystem $file_system)
+	{
 		parent::__construct();
 		$this->file_generator = $file_generator;
+		$this->file_system = $file_system;
 	}
 
 	/**
-	 * Configure the command options.
-	 *
+	 * Configure the command
+	 * 
 	 * @return void
 	 */
-	public function configure() {
+	public function configure()
+	{
 		$this->setName('generate')
 			->setDescription('Generate JSX files from a source.')
 			->addArgument('source', InputArgument::OPTIONAL, 'The folder containing target twig templates.')
 			->addArgument('destination', InputArgument::OPTIONAL, 'The folder where to output JSX files.');
 	}
 
-	public function checkFileSystem($source, $destination) {
+	/**
+	 * Check the input and outputs are valid
+	 * 
+	 * @param string $input
+	 * @param string $output
+	 */
+	public function checkFileSystem($source, $destination)
+	{
 
-		$fileSystem = new Filesystem();
-
-		if (!$fileSystem->exists($source)) {
+		if (!$this->file_system->exists($source)) {
 			throw new RuntimeException('Source file or folder does not exist!');
 		}
 
@@ -49,19 +71,17 @@ class GenerateCommand extends Command {
 
 	}
 
-	public function prepareDestination($destination) {
+	/**
+	 * Create the destination dir
+	 * 
+	 * @param string $destination
+	 */
+	public function prepareDestination($destination)
+	{
 
-		$filesystem = new Filesystem;
-
-		if (!$filesystem->exists($destination) && !pathinfo($destination, PATHINFO_EXTENSION)) {
-			$filesystem->mkdir($destination, 0777);
+		if (!$this->file_system->exists($destination) && !pathinfo($destination, PATHINFO_EXTENSION)) {
+			$this->file_system->mkdir($destination, 0777);
 		}
-
-		// try {
-		// 	$filesystem->chmod($destination, 0777, 0000, true);
-		// } catch (IOExceptionInterface $e) {
-		// 	$output->writeln('<comment>You should verify that the destination directory is writable.</comment>');
-		// }
 
 		return $this;
 
@@ -74,7 +94,8 @@ class GenerateCommand extends Command {
 	 * @param  \Symfony\Component\Console\Output\OutputInterface  $output
 	 * @return void
 	 */
-	public function execute(InputInterface $input, OutputInterface $output) {
+	public function execute(InputInterface $input, OutputInterface $output)
+	{
 
 		$source = ($input->getArgument('source')) ? getcwd() . '/' . $input->getArgument('source') : getcwd();
 
@@ -95,7 +116,13 @@ class GenerateCommand extends Command {
 		$output->writeln('<info>Generating JSX ...</info>');
 
 		foreach ($target_files as $target_file) {
+			if(pathinfo($destination, PATHINFO_EXTENSION) && !is_dir($destination)) {
+				$file_name = $destination;
+			} else {
+				$file_name = $destination . '/' . DirectoryHelper::getFileNameNoExtension($target_file) . '.jsx';
+			}
 			$jsx = $this->file_generator->generateJsx($target_file);
+			$this->file_system->dumpFile($file_name, $jsx);
 		}
 
 		$output->writeln('<comment>Application ready! Build something amazing.</comment>');
