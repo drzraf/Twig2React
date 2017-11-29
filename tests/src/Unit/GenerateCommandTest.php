@@ -1,6 +1,6 @@
 <?php
 
-//namespace Twig2React\Test;
+namespace Twig2React\Test;
 
 use Twig2React\Command\GenerateCommand;
 use Symfony\Component\Console\Application;
@@ -13,7 +13,6 @@ class GenerateCommandTest extends TestCase {
 
 	public function testGenerateCommand(){
 
-        $command = new GenerateCommand;
         $generate_service = new GenerateService;
         $fs = new Filesystem;
         $application = new Application('Twig2React', '1.0');
