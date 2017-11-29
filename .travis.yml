@@ -3,5 +3,8 @@ language: php
 php:
   - 7
 
+install:
+  - composer install
+
 script:
   - phpunit
