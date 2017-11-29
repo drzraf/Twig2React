@@ -7,12 +7,13 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
-use \Twig2React\Services\GenerateService;
+use Twig2React\Services\GenerateService;
 
 class GenerateCommandTest extends TestCase {
 
 	public function testGenerateCommand(){
 
+        $command = new GenerateCommand;
         $generate_service = new GenerateService;
         $fs = new Filesystem;
         $application = new Application('Twig2React', '1.0');
