@@ -49,7 +49,7 @@ EOT;
 
         # Convert double braces to single
         $this->template = preg_replace('/{{([\[\]a-zA-Z0-9 ._\'\"]+)}}/', '{$1}', $this->template);
-    
+
         # Convert class names without variables
         $this->template = preg_replace('/class="([^{}]+)"/U', 'className="$1"', $this->template);
 
@@ -71,6 +71,6 @@ EOT;
         return $this;
 
     }
-    
+
 
 }

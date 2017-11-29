@@ -26,7 +26,7 @@ class GenerateCommand extends Command {
 
 	/**
 	 * construct
-	 * 
+	 *
 	 * @param Twig2React\Services\GenerateService $file_generator
 	 * @param Symfony\Component\Filesystem\Filesystem $file_system
 	 */
@@ -39,7 +39,7 @@ class GenerateCommand extends Command {
 
 	/**
 	 * Configure the command
-	 * 
+	 *
 	 * @return void
 	 */
 	public function configure()
@@ -52,7 +52,7 @@ class GenerateCommand extends Command {
 
 	/**
 	 * Check the input and outputs are valid
-	 * 
+	 *
 	 * @param string $input
 	 * @param string $output
 	 */
@@ -71,9 +71,25 @@ class GenerateCommand extends Command {
 
 	}
 
+	protected function getIntendedPath(InputInterface $user_input, $parameter)
+	{
+
+		$path = getcwd();
+
+		if($user_input->getArgument($parameter)) {
+			$path .= '/' . $user_input->getArgument($parameter);
+			if (substr($user_input->getArgument($parameter), 0, 1) === '/') {
+				$path = $user_input->getArgument($parameter);
+			}
+		}
+
+		return $path;
+
+	}
+
 	/**
 	 * Create the destination dir
-	 * 
+	 *
 	 * @param string $destination
 	 */
 	public function prepareDestination($destination)
@@ -97,9 +113,9 @@ class GenerateCommand extends Command {
 	public function execute(InputInterface $input, OutputInterface $output)
 	{
 
-		$source = ($input->getArgument('source')) ? getcwd() . '/' . $input->getArgument('source') : getcwd();
+		$source	= $this->getIntendedPath($input, 'source');
 
-		$destination = ($input->getArgument('destination')) ? getcwd() . '/' . $input->getArgument('destination') : getcwd();
+		$destination = $this->getIntendedPath($input, 'destination');
 
 		$this->checkFileSystem($source, $destination)
 			->prepareDestination($destination);
@@ -110,6 +126,7 @@ class GenerateCommand extends Command {
 		$helper = $this->getHelper('question');
 		$question = new ConfirmationQuestion(sprintf("Found %d twig files in '%s' Continue generating JSX to '%s'? (y/n)", count($target_files), $source, $destination), false);
 		if (!$helper->ask($input, $output, $question)) {
+			$output->writeln('<info>User cancelled.</info>');
 			return;
 		}
 
