@@ -5,7 +5,7 @@ A command line tool born out of necessity, Twig2React will convert your .twig fi
 ## How to start
 Install twig2react globally using composer
 ```
-$ composer global require twig2react/twig2react
+$ composer global require "twig2react/twig2react ~1.0.0"
 ```
 
 Generate JSX files using the twig2react command
