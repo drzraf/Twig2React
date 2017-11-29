@@ -18,7 +18,7 @@
   },
 	"require": {
     "php": ">=7.0",
-    "symfony/symfony": "3.*.*"
+    "symfony/symfony": "@stable"
 	},
   "extra": {
     "installer-name": "twig2react"
