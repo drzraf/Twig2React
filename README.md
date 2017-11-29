@@ -3,6 +3,12 @@
 A command line tool for converting .twig files into JSX for use with the React.js framework.
 
 ## How to start
+Install twig2react globally using composer
 ```
-$ drush composer
+$ composer global require twig2react/twig2react
+```
+
+Generate JSX files using the twig2react command
+```
+$ twig2react generate <source> <destination>
 ```
