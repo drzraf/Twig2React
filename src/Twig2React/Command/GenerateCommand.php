@@ -110,7 +110,7 @@ class GenerateCommand extends Command {
 	 * @param  \Symfony\Component\Console\Output\OutputInterface  $output
 	 * @return void
 	 */
-	public function execute(InputInterface $input, OutputInterface $output)
+	public function execute(InputInterface $input, OutputInterface $output): int
 	{
 
 		$source	= $this->getIntendedPath($input, 'source');
@@ -127,7 +127,7 @@ class GenerateCommand extends Command {
 		$question = new ConfirmationQuestion(sprintf("Found %d twig files in '%s' Continue generating JSX to '%s'? (y/n)", count($target_files), $source, $destination), false);
 		if (!$helper->ask($input, $output, $question)) {
 			$output->writeln('<info>User cancelled.</info>');
-			return;
+			return 1;
 		}
 
 		$output->writeln('<info>Generating JSX ...</info>');
@@ -138,12 +138,12 @@ class GenerateCommand extends Command {
 			} else {
 				$file_name = $destination . '/' . DirectoryHelper::getFileNameNoExtension($target_file) . '.jsx';
 			}
-			$jsx = $this->file_generator->generateJsx($target_file);
+			$jsx = $this->file_generator->generateJsx($target_file, $source);
 			$this->file_system->dumpFile($file_name, $jsx);
 		}
 
 		$output->writeln('<comment>Application ready! Build something amazing.</comment>');
 
+    return 0;
 	}
-
 }

@@ -5,13 +5,14 @@ namespace Twig2React\Services;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\DomCrawler\Crawler;
 
-class GenerateService {
+class GenerateService
+{
 
-  protected $template;
+    protected $template;
 
-  protected function jsxTemplate()
-  {
-      $this->template = <<<EOT
+    protected function jsxTemplate()
+    {
+        $this->template = <<<EOT
     import React from 'react';\n
     const render = function() {
         return (
@@ -21,32 +22,31 @@ class GenerateService {
     export default render;
 EOT;
 
-     return $this;
+        return $this;
+    }
 
-  }
-
-  /**
-   * Transform twig into JSX
-   *
-   * @return string
-   */
-    public function generateJsx($path)
+    /**
+     * Transform twig into JSX
+     *
+     * @return string
+     */
+    public function generateJsx($path, $base, $wrapper = true)
     {
-
-		$file = new File($path);
+        $this->base = $base;
+        $file = new File($path);
 
         $this->template = file_get_contents($file->getPathname());
 
-        $this->transform()
-            ->jsxTemplate();
+        $this->transform();
+        if ($wrapper) {
+            $this->transform()->jsxTemplate();
+        }
 
         return $this->template;
-
     }
 
     protected function transform()
     {
-
         # Convert double braces to single
         $this->template = preg_replace('/{{([\[\]a-zA-Z0-9 ._\'\"]+)}}/', '{$1}', $this->template);
 
@@ -68,9 +68,27 @@ EOT;
         # Convert data attributes
         $this->template = preg_replace('/data-([a-zA-Z]+)="{(.*)}"/U', 'data-$1={$2}', $this->template);
 
+        # Convert variable assignements
+        $this->template = preg_replace('/{% set ([a-zA-Z0-9_]+)\s*=\s*(.*)\s*%}/', 'const \1 = \2;', $this->template);
+
+        # Convert variable assignements
+        $this->template = preg_replace('/{% block \w+ %}|{% endblock %}/', '', $this->template);
+
+        # Inline conditionals
+        $this->template = preg_replace('/{% if (.*?) %}([^%\n]+){% endif %}/', '{ \1 ? "\2" : "" }', $this->template);
+        $this->template = preg_replace('/{% if (.*?) %}([^%\n]+){% else %}([^%\n]+){% endif %}/', '{ \1 ? "\2" : "\3" }', $this->template);
+
+        # Includes
+        $basename = $this->base;
+        $this->template = preg_replace_callback(
+            '/{% include (["\'])(.*?)\1 %}/',
+            function ($matches) use ($basename) {
+                $e = new GenerateService();
+                return $e->generateJsx($basename . '/' . $matches[2], $basename, false);
+            },
+            $this->template
+        );
+
         return $this;
-
     }
-
-
 }

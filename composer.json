@@ -1,34 +1,35 @@
 {
-  "name": "twig2react/twig2react",
-  "description": "Convert twig files to JSX",
-  "keywords": ["react","twig","drupal"],
-  "license": "GNU GPL V2",
-  "authors": [
-    {
-      "name": "Tom Bennett",
-      "email": "tombennett86@hotmail.co.uk",
-      "homepage": "http://www.tombennett.info",
-      "role": "Developer"
-    }
-  ],
-  "autoload": {
-    "psr-4": {
-      "Twig2React\\": "src/Twig2React"
-    }
-  },
-	"require": {
-    "php": ">=7.0",
-    "symfony/finder": ">=3.3.0",
-    "symfony/http-foundation": ">=3.3.0",
-    "symfony/dom-crawler": ">=3.3.0",
-    "symfony/console": ">=3.3.0",
-    "symfony/filesystem": ">=3.3.0"
-	},
-  "extra": {
-    "installer-name": "twig2react"
-  },
-	"require-dev": {
-    "php": ">=7.0",
-		"phpunit/phpunit": "^5.0"
+    "name": "twig2react/twig2react",
+    "description": "Convert twig files to JSX",
+    "keywords": ["react","twig","drupal"],
+    "license": "GPL-2.0-or-later",
+    "authors": [
+	{
+	    "name": "Tom Bennett",
+	    "email": "tombennett86@hotmail.co.uk",
+	    "homepage": "http://www.tombennett.info",
+	    "role": "Developer"
 	}
+    ],
+    "autoload": {
+	"psr-4": {
+	    "Twig2React\\": "src/Twig2React"
+	}
+    },
+    "require": {
+	"php": ">=7.0",
+	"symfony/config": "^5.4",
+	"symfony/console": "^5.4",
+	"symfony/dependency-injection": "^5.4",
+	"symfony/dom-crawler": "^5.4",
+	"symfony/filesystem": "^5.4",
+	"symfony/finder": "^5.4",
+	"symfony/http-foundation": "^5.4"
+    },
+    "extra": {
+	"installer-name": "twig2react"
+    },
+    "require-dev": {
+	"phpunit/phpunit": "^5.0"
+    }
 }
